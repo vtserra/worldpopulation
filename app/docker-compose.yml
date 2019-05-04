@@ -1,0 +1,26 @@
+version: '2'
+services:
+  php:
+    image: vtserra/vultr-php
+    volumes:
+      - ./:/app
+    working_dir: /app
+  web:
+    image: vtserra/vultr-nginx
+    volumes:
+      - ./:/app
+    depends_on:
+      - php
+    ports:
+      - 80:80
+  mysql:
+    image: vtserra/mysql
+    volumes:
+      - ./:/app
+      - dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=world
+      - MYSQL_ROOT_PASSWORD=root
+    working_dir: /app
+volumes:
+        dbdata:
